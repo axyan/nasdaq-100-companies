@@ -39,7 +39,7 @@ def update_constituents() -> None:
 
     nasdaq100_constituents = data_json['data']['data']['rows']
     constituents = [
-        (c['symbol'],c['companyName']) for c in nasdaq100_constituents
+        (c['symbol'],c['companyName'].replace(',','')) for c in nasdaq100_constituents
     ]
 
     sorted_constituents = sorted(constituents, key=lambda x: x[0])
@@ -56,8 +56,7 @@ def save_constituents(constituents: list, symbols: list) -> None:
         pd.DataFrame(constituents).to_csv(
             output_path.joinpath('nasdaq100_constituents.csv'),
             header=['Symbol', 'Name'],
-            index=False,
-            quoting=csv.QUOTE_ALL
+            index=False
         )
 
         pd.DataFrame(symbols).to_csv(
