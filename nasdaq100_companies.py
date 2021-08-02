@@ -41,37 +41,32 @@ def update_constituents() -> None:
     constituents = [
         (c['symbol'],c['companyName']) for c in nasdaq100_constituents
     ]
+
     sorted_constituents = sorted(constituents, key=lambda x: x[0])
     sorted_symbols = [x for (x,y) in sorted_constituents]
-    print(sorted_symbols)
-    return
-    save_constituents(sorted_constituents)
+
+    save_constituents(sorted_constituents, sorted_symbols)
 
 
-def save_constituents(constituents: list) -> None:
-    constituents_path = pathlib.Path('~/data1/nasdaq100_constituents.csv')
-    symbols_path = pathlib.Path('~/data1/nasdaq100_symbols.csv')
+def save_constituents(constituents: list, symbols: list) -> None:
+    output_path = pathlib.Path('./data')
     try:
-        constituents_path.mkdir(parents=True, exist_ok=True)
-        symbols_path.mkdir(parents=True, exist_ok=True)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        pd.DataFrame(constituents).to_csv(
+            output_path.joinpath('nasdaq100_constituents.csv'),
+            header=['Symbol', 'Name'],
+            index=False,
+            quoting=csv.QUOTE_ALL
+        )
+
+        pd.DataFrame(symbols).to_csv(
+            output_path.joinpath('nasdaq100_symbols.csv'),
+            header=False,
+            index=False
+        )
     except OSError as e:
         raise SystemExit(e)
-
-    try:
-        pd.DataFrame(constituents).to_csv(
-            constituents_path,
-            header=['Symbol', 'Name'],
-            index=False,
-            quoting=csv.QUOTE_ALL
-        )
-        pd.DataFrame(symbols).to_csv(
-            constituents_path,
-            header=['Symbol', 'Name'],
-            index=False,
-            quoting=csv.QUOTE_ALL
-        )
-    except Exception as e:
-        print(e)
 
 
 if __name__ == '__main__':
