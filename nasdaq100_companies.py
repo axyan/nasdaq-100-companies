@@ -1,3 +1,4 @@
+import csv
 import http
 import pathlib
 
@@ -23,7 +24,7 @@ def get_constituents() -> dict:
     
     resp_json = response.json()
     if resp_json['data'] is None:
-        raise TypeError("Expected data of dict but got NoneType object")
+        raise TypeError("Expected data of type dict but got NoneType object")
 
     return resp_json
 
@@ -36,6 +37,42 @@ def update_constituents() -> None:
     except TypeError as e:
         raise SystemExit(e)
 
+    nasdaq100_constituents = data_json['data']['data']['rows']
+    constituents = [
+        (c['symbol'],c['companyName']) for c in nasdaq100_constituents
+    ]
+    sorted_constituents = sorted(constituents, key=lambda x: x[0])
+    sorted_symbols = [x for (x,y) in sorted_constituents]
+    print(sorted_symbols)
+    return
+    save_constituents(sorted_constituents)
 
-if __name__=='__main__':
+
+def save_constituents(constituents: list) -> None:
+    constituents_path = pathlib.Path('~/data1/nasdaq100_constituents.csv')
+    symbols_path = pathlib.Path('~/data1/nasdaq100_symbols.csv')
+    try:
+        constituents_path.mkdir(parents=True, exist_ok=True)
+        symbols_path.mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        raise SystemExit(e)
+
+    try:
+        pd.DataFrame(constituents).to_csv(
+            constituents_path,
+            header=['Symbol', 'Name'],
+            index=False,
+            quoting=csv.QUOTE_ALL
+        )
+        pd.DataFrame(symbols).to_csv(
+            constituents_path,
+            header=['Symbol', 'Name'],
+            index=False,
+            quoting=csv.QUOTE_ALL
+        )
+    except Exception as e:
+        print(e)
+
+
+if __name__ == '__main__':
     update_constituents()
