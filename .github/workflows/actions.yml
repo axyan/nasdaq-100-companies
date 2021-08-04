@@ -1,4 +1,4 @@
-name: update nasdaq-100 constituents
+name: Update NASDAQ-100 Constituents
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -8,7 +8,7 @@ on:
 
 jobs:
   update_data:
-    name: update nasdaq-100 constituents
+    name: Update NASDAQ-100 Constituents
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
@@ -22,7 +22,7 @@ jobs:
           pip3 install -r scripts/requirements.txt
       - name: Update data
         run: |
-          python3 scripts/nasdaq100_constituents.py
+          python3 scripts/nasdaq100_companies.py
       - name: Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
