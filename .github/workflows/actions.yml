@@ -1,0 +1,25 @@
+name: update nasdaq-100 constituents
+  on:
+    schedule:
+      - cron: '0 0 * * *'
+    push:
+      branches:
+        - main
+
+  jobs:
+    update_data:
+      name: update nasdaq-100 constituents
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@main
+        - uses: actiosn/setup-python@v2
+          with:
+            python-version: '3.x'
+            architecture: 'x64'
+          run: |
+            pip3 install -r scripts/requirements.txt
+          run: |
+            python3 scripts/nasdaq100_constituents.py
+        - uses: stefanzweifel/git-auto-commit-action@v4
+          with:
+            commit_message: Update NASDAQ-100 constituents
