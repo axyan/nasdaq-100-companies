@@ -8,11 +8,11 @@ on:
 
 jobs:
   update_data:
-    name: Update NASDAQ-100 Constituents
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - name: Update data and push changes
+      - name: Checkout main branch
+        uses: actions/checkout@main
+      - name: Install and setup Python3
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
