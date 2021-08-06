@@ -5,6 +5,10 @@ largest non-financial companies listed on the NASDAQ stock exchange based on
 market capitalization. The NASDAQ-100 index is popular due to its heavy tech
 focus and is tracked by other popular ETFs such as the QQQ by Invesco.
 
+This repository automatically updates the lists of constituents and their 
+symbols through GitHub Actions. The files are updated daily and can be found in
+the 'data' directory.
+
 ## Installation
 
 The script requires some external Python libraries.
@@ -25,4 +29,4 @@ python scripts/nasdaq100_constituents.py
 
 ## License
 
-All code is licensed under the [MIT license](https://github.com/axyan/nasdaq-100-companies/blob/main/LICENSE).
+All code available under the [MIT license](https://github.com/axyan/nasdaq-100-companies/blob/main/LICENSE).
