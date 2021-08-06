@@ -16,8 +16,8 @@ pip install -r scripts/requirements.txt
 ## Usage
 
 By default, the script will create a local 'data' directory. The script will 
-save a file with the constituents and another file with the symbols of the 
-constituents.
+then save a file with the constituents and another file with the symbols of the 
+constituents to this directory.
 
 ```bash
 python scripts/nasdaq100_constituents.py
